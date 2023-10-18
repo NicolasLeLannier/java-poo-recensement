@@ -2,6 +2,7 @@ package fr.diginamic.recensement;
 
 import java.util.Scanner;
 
+import fr.diginamic.exception.SaisieLettreException;
 import fr.diginamic.recensement.entites.Recensement;
 import fr.diginamic.recensement.services.RechercheDepartementsPlusPeuplees;
 import fr.diginamic.recensement.services.RecherchePopulationBorneService;
@@ -25,6 +26,7 @@ public class Application {
 	 * Point d'entrée
 	 * 
 	 * @param args arguments (non utilisés ici)
+	 * @throws SaisieLettreException 
 	 */
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
@@ -40,7 +42,7 @@ public class Application {
 		// Menu
 		int choix = 0;
 		do {
-
+			
 			// Affichage du menu
 			afficherMenu();
 
@@ -66,7 +68,12 @@ public class Application {
 				break;
 			case 4:
 				RecherchePopulationBorneService recherchePopBorne = new RecherchePopulationBorneService();
-				recherchePopBorne.traiter(recensement, scanner);
+				try {
+					recherchePopBorne.traiter(recensement, scanner);
+				}
+				catch(Exception e) {
+					System.err.println(e.getMessage());
+				}
 				break;
 			case 5:
 				RechercheVillesPlusPeupleesDepartement rechercheVillesPlusPeupleesDepartement = new RechercheVillesPlusPeupleesDepartement();
@@ -89,6 +96,7 @@ public class Application {
 				rechercheVillesPlusPeupleesFrance.traiter(recensement, scanner);
 				break;
 			}
+			
 
 		} while (choix != 99);
 
